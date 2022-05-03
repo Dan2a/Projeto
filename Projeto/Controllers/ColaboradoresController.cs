@@ -49,23 +49,34 @@ namespace Projeto.Controllers
             return Ok(_context.SaveChanges());
         }
 
-        // GET api/<ColaboradoresController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
         // PUT api/<ColaboradoresController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, Colaboradores colabToUpdate)
         {
+            var colabPutDb = _context.Colaboradores.FirstOrDefault(c => c.Id == id);
+            if (colabPutDb == null)
+                return NotFound();
+            colabPutDb.Nome = colabToUpdate.Nome;
+            colabPutDb.Sobrenome = colabToUpdate.Sobrenome;
+            colabPutDb.Senha = colabToUpdate.Senha;
+            colabPutDb.Telefone = colabToUpdate.Telefone;
+            colabPutDb.Ramal = colabToUpdate.Ramal; 
+            colabPutDb.Email = colabToUpdate.Email;
+            colabPutDb.Setor = colabToUpdate.Setor;
+            _context.Colaboradores.Update(colabPutDb);
+            return Ok(_context.SaveChanges());
         }
 
         // DELETE api/<ColaboradoresController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            var colabFromDb = _context.Colaboradores.FirstOrDefault(c => c.Id == id);
+            if (colabFromDb == null)
+                return NotFound();
+            _context.Colaboradores.Remove(colabFromDb);
+            return Ok(_context.SaveChanges());
+
         }
     }
 }
