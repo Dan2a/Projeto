@@ -18,8 +18,8 @@ namespace Projeto.Controllers
             _context = context;
         }
         // GET: api/<authController>
-        [HttpGet]
-        public bool Get(LoginDto login)
+        [HttpPost]
+        public bool Post(LoginDto login)
         {
             var user = _context.Colaboradores.FirstOrDefault(c => c.Email == login.Email);
             if (user is not null)
